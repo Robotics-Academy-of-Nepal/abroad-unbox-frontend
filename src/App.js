@@ -20,6 +20,9 @@ import AdvanceMath from './component/sat/quant/AdvanceMath';
 import QuantSectional from './component/sat/quant/QuantSectional';
 import QuantFullLength from './component/sat/quant/QuantFullLength';
 import Login from './component/forms/Login';
+import AddStudent from './component/add_student/AddStudent';
+import Signup from './component/forms/StudentRegister';
+import AddContentForm from './component/info/AddContentForm';
 
 function App() {
   return (
@@ -27,12 +30,14 @@ function App() {
       <TopHeader/>
       <Header/>
       <Routes>
+        <Route path="/abroad-unbox" element={<Home />} />
         <Route path="/" element={<Home />} />
         <Route path="/sat/reading" element={<Reading/>} />
         <Route path="/studentdash" element={<StudentDash/>} />
         <Route path="/applicationtimeline" element={<AppTimeline/>} />
         <Route path="/essaywriting" element={<EssayWriting/>} />
         <Route path="/info" element={<Info/>} />
+        <Route path="/addstudent" element={<AddStudent/>} />
 
         {/* routing for the verbal section */}
         <Route path="/grammar" element={<Grammar/>} />
@@ -50,7 +55,11 @@ function App() {
         <Route path="/full-length-test-quant" element={<QuantFullLength/>} />
 
         {/* routing for login */}
-        <Route  path="/login" element={<Login/>} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/signup" element={<Signup/>} />
+
+        {/* roting for info section */}
+        <Route path="/info-addcontent" element={<AddContentForm/>} />
 
       </Routes>
       <Footer />

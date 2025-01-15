@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Sidebar from '../Sidebar'
 
 const Reading = () => {
-const [isAdmin, setIsAdmin]= useState(true);
+const [isAdmin, setIsAdmin]= useState(false);
 
   return (
     <div className='w-full flex'>

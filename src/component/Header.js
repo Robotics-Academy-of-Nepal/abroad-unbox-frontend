@@ -1,11 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { MdOutlineMenu } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
+import axios from "axios";
 
 const Header = () => {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoggedin, setIsLoggedin] = useState(false);
+  const [isStaff, setIsStaff] = useState(false);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const response = await axios.get("http://192.168.1.2:8000/api/get-user/", {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          });
+
+          if (response.data.is_staff) {
+            setIsLoggedin(true);
+            setIsStaff(true); 
+          } else {
+            setIsLoggedin(true);
+            setIsStaff(false); 
+          }
+        } catch (error) {
+          setIsLoggedin(false);
+          setIsStaff(false); 
+        }
+      } else {
+        setIsLoggedin(false);
+        setIsStaff(false); 
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -67,19 +103,32 @@ const Header = () => {
                 </span>
               </Link>
             </li>
-            <li>
-              <Link to="/studentdash" onClick={toggleMenu}>
-                <span
-                  className={`block px-4 py-2 rounded-md text-lg ${
-                    location.pathname === "/studentdash"
-                      ? "bg-[#020346] text-white"
-                      : "bg-[#07096D] text-white hover:bg-[#020346]"
-                  }`}
-                >
-                  Student Dashboard
-                </span>
-              </Link>
-            </li>
+            {isLoggedin && !isStaff && (
+              <li>
+                <Link to="/studentdash" onClick={toggleMenu}>
+                  <span
+                    className={`block px-4 py-2 rounded-md text-lg ${
+                      location.pathname === "/studentdash" ? "bg-[#020346] text-white" : "bg-[#07096D] text-white hover:bg-[#020346]"
+                    }`}
+                  >
+                    Student Dashboard
+                  </span>
+                </Link>
+              </li>
+            )}
+            {isLoggedin && isStaff && (
+              <li>
+                <Link to="/addstudent" onClick={toggleMenu}>
+                  <span
+                    className={`block px-4 py-2 rounded-md text-lg ${
+                      location.pathname === "/addstudent" ? "bg-[#020346] text-white" : "bg-[#07096D] text-white hover:bg-[#020346]"
+                    }`}
+                  >
+                    Add Student
+                  </span>
+                </Link>
+              </li>
+            )}
             <li>
               <Link to="/applicationtimeline" onClick={toggleMenu}>
                 <span
@@ -156,17 +205,32 @@ const Header = () => {
              SAT
           </button>
         </Link>
-        <Link to="/studentdash">
-          <button
-            className={`px-4 py-4 rounded-t-lg focus:outline-none ${
-              location.pathname === "/studentdash"
-                ? "bg-[#020346] text-white"
-                : "bg-[#07096D] text-white hover:bg-[#020346]"
-            }`}
-          >
-             Student Dashboard
-          </button>
-        </Link>
+        {isLoggedin && !isStaff && (
+          <Link to="/studentdash">
+            <button
+              className={`px-4 py-4 rounded-t-lg focus:outline-none ${
+                location.pathname === "/studentdash"
+                  ? "bg-[#020346] text-white"
+                  : "bg-[#07096D] text-white hover:bg-[#020346]"
+              }`}
+            >
+              Student Dashboard
+            </button>
+          </Link>
+        )}
+        {isLoggedin && isStaff && (
+          <Link to="/addstudent">
+            <button
+              className={`px-4 py-4 rounded-t-lg focus:outline-none ${
+                location.pathname === "/addstudent"
+                  ? "bg-[#020346] text-white"
+                  : "bg-[#07096D] text-white hover:bg-[#020346]"
+              }`}
+            >
+              Add Student
+            </button>
+          </Link>
+        )}
         <Link to="/applicationtimeline">
           <button
             className={`px-4 py-4 rounded-t-lg focus:outline-none ${

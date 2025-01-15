@@ -651,6 +651,22 @@ const AppStatusTable = () => {
               </td>
             </tr>
 
+            <tr className="bg-gray-900 text-gray-100">
+              <td className="border border-gray-600 px-4 py-2 font-bold">Application Submission followup email (Week 1)</td>
+              <td className="border border-gray-600 px-4 py-2">Email Sent (Oct 26) 2025</td>
+              <td className="border border-gray-600 px-4 py-2"></td>
+              <td className="border border-gray-600 px-4 py-2"></td>
+              <td className="border border-gray-600 px-4 py-2"></td>
+            </tr>
+
+            <tr className="bg-gray-900 text-gray-100">
+              <td className="border border-gray-600 px-4 py-2 font-bold">Application Submission followup email (Week 1/2)</td>
+              <td className="border border-gray-600 px-4 py-2">Submission confirmed</td>
+              <td className="border border-gray-600 px-4 py-2"></td>
+              <td className="border border-gray-600 px-4 py-2"></td>
+              <td className="border border-gray-600 px-4 py-2"></td>
+            </tr>
+
         </tbody>
       </table>
     </div>
