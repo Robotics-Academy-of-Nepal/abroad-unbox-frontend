@@ -1,8 +1,13 @@
 import React from 'react'
+import HomeBody from './HomeBody'
+import HomeOffer from './HomeOffer'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <div>
+      <HomeBody/>
+      <HomeOffer/>
+    </div>
   )
 }
 

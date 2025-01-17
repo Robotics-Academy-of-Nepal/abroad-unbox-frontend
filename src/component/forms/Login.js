@@ -15,7 +15,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://192.168.1.2:8000/api/login/", formData, {
+      const response = await axios.post("http://192.168.1.54:8000/api/login/", formData, {
         headers: { "Content-Type": "application/json" },
       });
       // console.log(response);
@@ -26,8 +26,8 @@ const Login = () => {
       if (token) {
         localStorage.setItem("token", token);
         setMessage({ text: "Login successful!", type: "success" });
+        navigate("/abroad-unbox");
         window.location.reload();
-        navigate("/");
       } else {
         setMessage({ text: "Invalid login credentials.", type: "error" });
       }

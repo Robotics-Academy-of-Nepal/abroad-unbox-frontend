@@ -10,7 +10,7 @@ const Sidebar = () => {
         <div className="w-64 bg-gray-100 p-4 md:border-r-2 md:border-[#020346] shadow-md shadow-black">
           {/* Verbal Section */}
           <div>
-            <h2 className="font-bold text-lg cursor-pointer">
+            <h2 className="font-bold text-lg cursor-default">
               Verbal
             </h2>
               <ul className="pl-4 mt-2 space-y-2">
@@ -76,7 +76,7 @@ const Sidebar = () => {
 
           {/* Quant Section */}
           <div className="mt-6">
-            <h2 className="font-bold text-lg cursor-pointer">
+            <h2 className="font-bold text-lg cursor-default">
               Quant
             </h2>
             <ul className="pl-4 mt-2 space-y-2">

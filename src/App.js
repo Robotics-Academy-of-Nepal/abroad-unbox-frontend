@@ -23,44 +23,59 @@ import Login from './component/forms/Login';
 import AddStudent from './component/add_student/AddStudent';
 import Signup from './component/forms/StudentRegister';
 import AddContentForm from './component/info/AddContentForm';
+import PrivateRoute from './component/admin/PrivateRoute';
+import React from 'react';
+import EditContentForm from './component/info/EditContent';
+import StudentForm from './component/student_dash/StudentForm';
+import AddEssay from './component/essay_writing/AddEssay';
+import EditEssay from './component/essay_writing/EditEssay';
+import StudentDetails from './component/student_dash/StudentInfo';
 
 function App() {
+  const [isStaff, setIsStaff] = React.useState(false);
+
   return (
     <div className="App">
-      <TopHeader/>
-      <Header/>
+      <TopHeader />
+      <Header setIsStaff={setIsStaff} />
       <Routes>
         <Route path="/abroad-unbox" element={<Home />} />
         <Route path="/" element={<Home />} />
-        <Route path="/sat/reading" element={<Reading/>} />
-        <Route path="/studentdash" element={<StudentDash/>} />
-        <Route path="/applicationtimeline" element={<AppTimeline/>} />
-        <Route path="/essaywriting" element={<EssayWriting/>} />
-        <Route path="/info" element={<Info/>} />
-        <Route path="/addstudent" element={<AddStudent/>} />
+        <Route path="/sat/reading" element={<Reading />} />
+        <Route path="/studentdash" element={<StudentDash />} />
+        <Route path="/applicationtimeline" element={<AppTimeline />} />
+        <Route path="/essaywriting" element={<EssayWriting />} />
+        <Route path="/info" element={<Info />} />
 
         {/* routing for the verbal section */}
-        <Route path="/grammar" element={<Grammar/>} />
-        <Route path="/contextual-evidence" element={<Contextual/>} />
-        <Route path="/inference" element={<Inference/>} />
-        <Route path="/vocabulary" element={<Vocabulary/>} />
-        <Route path="/sectional-test" element={<SectionalTest/>} />
-        <Route path="/full-length-test" element={<FullLength/>} />
+        <Route path="/grammar" element={<Grammar />} />
+        <Route path="/contextual-evidence" element={<Contextual />} />
+        <Route path="/inference" element={<Inference />} />
+        <Route path="/vocabulary" element={<Vocabulary />} />
+        <Route path="/sectional-test" element={<SectionalTest />} />
+        <Route path="/full-length-test" element={<FullLength />} />
 
         {/* routing for the quant section */}
-        <Route path="/basic" element={<Basics/>} />
-        <Route path="/algebra" element={<Algebra/>} />
-        <Route path="/advance-math" element={<AdvanceMath/>} />
-        <Route path="/sectional-test-quant" element={<QuantSectional/>} />
-        <Route path="/full-length-test-quant" element={<QuantFullLength/>} />
+        <Route path="/basic" element={<Basics />} />
+        <Route path="/algebra" element={<Algebra />} />
+        <Route path="/advance-math" element={<AdvanceMath />} />
+        <Route path="/sectional-test-quant" element={<QuantSectional />} />
+        <Route path="/full-length-test-quant" element={<QuantFullLength />} />
 
         {/* routing for login */}
-        <Route path="/login" element={<Login/>} />
-        <Route path="/signup" element={<Signup/>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/studentform" element={<StudentForm/>} />
 
-        {/* roting for info section */}
-        <Route path="/info-addcontent" element={<AddContentForm/>} />
+        {/* private routing for admin only */}
+        <Route path="/addstudent" element={<PrivateRoute isStaff={isStaff}><AddStudent /></PrivateRoute>} />
+        <Route path="/info-addcontent" element={<PrivateRoute isStaff={isStaff}><AddContentForm /></PrivateRoute>} />
+        <Route path="/signup" element={<PrivateRoute isStaff={isStaff}><Signup /></PrivateRoute>} />
+        <Route path="/info-editcontent/:id"element={<PrivateRoute isStaff={isStaff}><EditContentForm /></PrivateRoute>} />
+        <Route path="/essay-addcontent"element={<PrivateRoute isStaff={isStaff}><AddEssay /></PrivateRoute>} />
+        <Route path="/essay-editcontent/:id"element={<PrivateRoute isStaff={isStaff}><EditEssay /></PrivateRoute>} />
+        
 
+        <Route path="/studentinfo" element={<StudentDetails/>} />
       </Routes>
       <Footer />
     </div>

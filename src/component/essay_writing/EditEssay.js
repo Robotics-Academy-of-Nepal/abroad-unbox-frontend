@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const EditContentForm = () => {
+const EditEssay = () => {
   const { id } = useParams(); 
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const EditContentForm = () => {
       try {
         // setLoading(true);
         const response = await axios.get(
-          `http://192.168.1.54:8000/api/info/${id}/`,  
+          `http://192.168.1.54:8000/api/essay-writing/${id}/`,  
           { 
             headers: { 
               'Authorization': `Token ${token}`  
@@ -73,7 +73,7 @@ const EditContentForm = () => {
     try {
       setLoading(true);
       const response = await axios.put(
-        `http://192.168.1.54:8000/api/info/${id}/`,
+        `http://192.168.1.54:8000/api/essay-writing/${id}/`,
         data,
         {
           headers: {
@@ -83,7 +83,7 @@ const EditContentForm = () => {
         }
       );
       setMessage('Content updated successfully!');
-      navigate('/info'); // Redirect after successful update
+      navigate('/essaywriting'); // Redirect after successful update
     } catch (error) {
       setMessage('Failed to update content.');
       console.error('Error updating content:', error);
@@ -168,4 +168,4 @@ const EditContentForm = () => {
   );
 };
 
-export default EditContentForm;
+export default EditEssay;

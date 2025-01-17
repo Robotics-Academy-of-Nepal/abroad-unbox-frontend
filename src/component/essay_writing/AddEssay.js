@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-const AddContentForm = () => {
+const AddEssay = () => {
   const [formData, setFormData] = useState({
     title: '',
     video_link: '',
@@ -39,7 +39,7 @@ const AddContentForm = () => {
 
     try {
       const response = await axios.post(
-        'http://192.168.1.54:8000/api/info/', 
+        'http://192.168.1.54:8000/api/essay-writing/', 
         data,
         {
           headers: {
@@ -49,7 +49,7 @@ const AddContentForm = () => {
         }
       );
       setMessage('Content added successfully!');
-      navigate('/info');
+      navigate('/essaywriting');
       setFormData({
         title: '',
         video_link: '',
@@ -65,7 +65,7 @@ const AddContentForm = () => {
 
   return (
     <div className="md:w-[60%] w-[90%] mx-auto p-6 shadow-inner shadow-gray-100 my-4 rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Add Content</h2>
+      <h2 className="text-2xl font-bold mb-4">Add Essay Content</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="title" className="block text-lg">Title:</label>
@@ -134,4 +134,4 @@ const AddContentForm = () => {
   );
 };
 
-export default AddContentForm;
+export default AddEssay;
