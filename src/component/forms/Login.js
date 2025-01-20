@@ -15,7 +15,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://192.168.1.54:8000/api/login/", formData, {
+      const response = await axios.post("http://192.168.1.29:8000/api/login/", formData, {
         headers: { "Content-Type": "application/json" },
       });
       // console.log(response);

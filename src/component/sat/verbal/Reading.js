@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Sidebar from '../Sidebar'
-import QuizVerbal from '../quiz/QuizVerbal';
+import QuizQuestion from '../quiz/QuizQuestion';
 
 const Reading = () => {
 const [isAdmin, setIsAdmin]= useState(false);
@@ -59,7 +59,7 @@ const [isAdmin, setIsAdmin]= useState(false);
             )}
         </div>
         {/* quiz section here */}
-        <QuizVerbal/>
+        {/* <QuizQuestion/> */}
     </div>
     </div>
   )

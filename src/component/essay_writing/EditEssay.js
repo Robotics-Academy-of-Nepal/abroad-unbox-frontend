@@ -23,7 +23,7 @@ const EditEssay = () => {
       try {
         // setLoading(true);
         const response = await axios.get(
-          `http://192.168.1.54:8000/api/essay-writing/${id}/`,  
+          `http://192.168.1.29:8000/api/essay-writing/${id}/`,  
           { 
             headers: { 
               'Authorization': `Token ${token}`  
@@ -73,7 +73,7 @@ const EditEssay = () => {
     try {
       setLoading(true);
       const response = await axios.put(
-        `http://192.168.1.54:8000/api/essay-writing/${id}/`,
+        `http://192.168.1.29:8000/api/essay-writing/${id}/`,
         data,
         {
           headers: {

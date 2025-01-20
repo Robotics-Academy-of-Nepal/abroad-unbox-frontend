@@ -1,123 +1,134 @@
-import React, { useState } from "react";
-import {Link} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
-  const [readingDropdown, setReadingDropdown] = useState(false);
+  const [topics, setTopics] = useState([]);
+  const [subtopics, setSubtopics] = useState({});
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    // Fetch all topics
+    const fetchTopics = async () => {
+      try {
+        const response = await axios.get("http://192.168.1.29:8000/api/topics/");
+        setTopics(response.data);
+      } catch (error) {
+        console.error("Error fetching topics:", error);
+      }
+    };
+
+    // Check admin status
+    const checkAdminStatus = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const userResponse = await axios.get("http://192.168.1.29:8000/api/get-user/", {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        });
+        const user = userResponse.data;
+        if (user.is_staff) {
+          setIsAdmin(true);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchTopics();
+    checkAdminStatus();
+  }, []);
+
+  // Fetch subtopics for a specific topic
+  const fetchSubtopics = async (topicId) => {
+    try {
+      const response = await axios.get(`http://192.168.1.29:8000/api/subtopics/?topic_id=${topicId}`);
+      console.log(response);
+      setSubtopics((prev) => ({
+        ...prev,
+        [topicId]: response.data,
+      }));
+    } catch (error) {
+      console.error(`Error fetching subtopics for topic ${topicId}:`, error);
+    }
+  };
+
+  const verbalTopics = topics.filter((topic) => topic.section === "verbal");
+  const quantTopics = topics.filter((topic) => topic.section === "quant");
 
   return (
-      <div className="flex h-screen">
-        {/* Sidebar */}
-        <div className="w-64 bg-gray-100 p-4 md:border-r-2 md:border-[#020346] shadow-md shadow-black">
-          {/* Verbal Section */}
-          <div>
-            <h2 className="font-bold text-lg cursor-default">
-              Verbal
-            </h2>
-              <ul className="pl-4 mt-2 space-y-2">
-                <li>
-                  <button
-                    className="text-blue-500 hover:text-[#07096D] hover:text-semibold"
-                    onClick={() => setReadingDropdown(!readingDropdown)}
-                  >
-                    <Link to="/sat/reading">Reading</Link>
-                  </button>
-                  {readingDropdown && (
-                    <ul className="pl-4 mt-1 space-y-1">
-                      <li>
-                        <Link
-                          to="/contextual-evidence"
-                          className="text-blue-500 hover:text-[#07096D] hover:text-semibold block"
-                        >
-                          Contextual Evidence
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/inference"
-                          className="text-blue-500 hover:text-[#07096D] hover:text-semibold block"
-                        >
-                          Inference
-                        </Link>
-                      </li>
-                    </ul>
-                  )}
-                </li>
-                <li>
-                  <Link to="/grammar" className="text-blue-500 hover:text-[#07096D] hover:text-semibold">
-                    Grammar
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/vocabulary"
-                    className="text-blue-500 hover:text-[#07096D] hover:text-semibold"
-                  >
-                    Vocabulary
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/sectional-test"
-                    className="text-blue-500 hover:text-[#07096D] hover:text-semibold"
-                  >
-                    Sectional Test
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/full-length-test"
-                    className="text-blue-500 hover:text-[#07096D] hover:text-semibold"
-                  >
-                    Full Length Test
-                  </Link>
-                </li>
-              </ul>
-          </div>
+    <div className="flex h-full max-h-screen">
+      {/* Sidebar */}
+      <div className="w-64 h-full bg-gray-100 p-4 md:border-r-2 md:border-[#020346] shadow-md shadow-black">
+        {/* Add Topic Link, visible only to admins */}
+        {isAdmin && (
+          <ul>
+            <li>
+              <Link to="/addtopic" className="underline text-green-500">
+                Add Topic
+              </Link>
+            </li>
+          </ul>
+        )}
 
-          {/* Quant Section */}
-          <div className="mt-6">
-            <h2 className="font-bold text-lg cursor-default">
-              Quant
-            </h2>
-            <ul className="pl-4 mt-2 space-y-2">
-              <li>
-                <Link to="/basic" className="text-blue-500 hover:text-[#07096D] hover:text-semibold">
-                  The Basic
-                </Link>
-              </li>
-              <li>
-                <Link to="/algebra" className="text-blue-500 hover:text-[#07096D] hover:text-semibold">
-                  Algebra
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/advance-math"
-                  className="text-blue-500 hover:text-[#07096D] hover:text-semibold"
+        {/* Verbal Section */}
+        <div className="mt-6">
+          <h2 className="font-bold text-lg cursor-default">Verbal</h2>
+          <ul>
+            {verbalTopics.map((topic) => (
+              <li key={topic.id} className="mb-2">
+                {/* Topic Name */}
+                <div
+                  className="text-blue-700 cursor-pointer"
+                  onClick={() => fetchSubtopics(topic.id)}
                 >
-                  Advance Math
-                </Link>
+                  <Link to={`/topics/${topic.id}`}>{topic.name}</Link>
+                </div>
+                {/* Subtopics List */}
+                {subtopics[topic.id] && (
+                  <ul className="ml-4 mt-1">
+                    {subtopics[topic.id].map((subtopic) => (
+                      <li key={subtopic.id} className="text-gray-700">
+                        <Link to={`/subtopics/${subtopic.id}`}>{subtopic.name}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
-              <li>
-                <Link
-                  to="/sectional-test-quant"
-                  className="text-blue-500 hover:text-[#07096D] hover:text-semibold"
+            ))}
+          </ul>
+        </div>
+
+        {/* Quant Section */}
+        <div className="mt-6">
+          <h2 className="font-bold text-lg cursor-default">Quant</h2>
+          <ul>
+            {quantTopics.map((topic) => (
+              <li key={topic.id} className="mb-2">
+                {/* Topic Name */}
+                <div
+                  className="text-blue-700 cursor-pointer"
+                  onClick={() => fetchSubtopics(topic.id)}
                 >
-                  Sectional Test
-                </Link>
+                  <Link to={`/topics/${topic.id}`}>{topic.name}</Link>
+                </div>
+                {/* Subtopics List */}
+                {subtopics[topic.id] && (
+                  <ul className="ml-4 mt-1">
+                    {subtopics[topic.id].map((subtopic) => (
+                      <li key={subtopic.id} className="text-gray-700">
+                        <Link to={`/subtopics/${subtopic.id}`}>{subtopic.name}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
-              <li>
-                <Link
-                  to="/full-length-test-quant"
-                  className="text-blue-500 hover:text-[#07096D] hover:text-semibold"
-                >
-                  Full Length Test
-                </Link>
-              </li>
-            </ul>
-          </div>
+            ))}
+          </ul>
         </div>
       </div>
+    </div>
   );
 };
 

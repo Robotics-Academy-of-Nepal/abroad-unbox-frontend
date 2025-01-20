@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import FetchDocuments from "./FetchDocs";
 
 const StudentDetails = () => {
   const [studentData, setStudentData] = useState({
@@ -12,6 +13,7 @@ const StudentDetails = () => {
     research_paper: "",
   });
   const [userId, setUserId] = useState(null);
+  const [documentsSubmitted, setDocumentsSubmitted] = useState(false); 
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -23,8 +25,7 @@ const StudentDetails = () => {
           return;
         }
 
-        // Fetch user details
-        const userResponse = await axios.get("http://192.168.1.54:8000/api/get-user/", {
+        const userResponse = await axios.get("http://192.168.1.29:8000/api/get-user/", {
           headers: { Authorization: `Token ${token}` },
         });
 
@@ -34,13 +35,14 @@ const StudentDetails = () => {
         if (userId) {
           // Fetch student details
           const studentResponse = await axios.get(
-            `http://192.168.1.54:8000/api/student-details/?userid=${userId}`,
+            `http://192.168.1.29:8000/api/student-details/?userid=${userId}`,
             { headers: { Authorization: `Token ${token}` } }
           );
 
-          const student = studentResponse.data[0]; 
+          const student = studentResponse.data[0];
           if (student) {
             setStudentData({
+              id: student.id || "",
               image: student.image || "",
               name: student.name || "",
               grade: student.grade || "",
@@ -48,9 +50,21 @@ const StudentDetails = () => {
               work_experience: student.work_experience || "",
               research_paper: student.research_paper || "",
             });
+            console.log(studentResponse);
+            console.log(studentResponse.data.id);
           } else {
             setError("No student data found.");
           }
+
+          // Fetch document submission status from docs-upload api endpoints
+          const docResponse = await axios.get(
+            `http://192.168.1.29:8000/api/student-document/?userid=${userId}`,
+            { headers: { Authorization: `Token ${token}` } }
+          );
+
+          // Check if documents are submitted
+          const documents = docResponse.data;
+          setDocumentsSubmitted(documents && documents.length > 0); 
         }
       } catch (error) {
         setError("Error fetching data. Please try again later.");
@@ -70,7 +84,9 @@ const StudentDetails = () => {
       {/* Student details section */}
       <div className="w-full md:w-[55%] text-xl text-gray-900 border-r-4 border-[#020346] shadow-md shadow-black p-6 relative">
         <button className="absolute top-4 right-4 bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600">
-          <Link to="/studentform">Add</Link>
+          <Link to={studentData.name ? `/edit-students/${studentData.id}` : "/studentform"}>
+            {studentData.name ? "" : "Add"}
+          </Link>
         </button>
         <h1 className="text-left font-semibold text-2xl">Student Bio:</h1>
         {/* Photo and details section */}
@@ -99,11 +115,24 @@ const StudentDetails = () => {
 
       {/* Updated documents section */}
       <div className="w-full md:w-[45%] p-6 relative">
-        <button className="absolute top-4 right-4 bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600">
-          <Link to="/studentform">Add</Link>
-        </button>
+        {documentsSubmitted ? (
+          <button className="absolute top-4 right-4 bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600">
+            <Link to={`/edit-docs/${userId}`}></Link>
+          </button>
+        ) : (
+          <button className="absolute top-4 right-4 bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600">
+            <Link
+              to={{
+                pathname: "/upload-docs",
+                state: { userId },
+              }}
+            >
+              Add
+            </Link>
+          </button>
+        )}
         <h2 className="text-xl font-semibold">Updated Documents:</h2>
-        <p>Docs section content goes here...</p>
+        <FetchDocuments userId={userId} />
       </div>
     </div>
   );

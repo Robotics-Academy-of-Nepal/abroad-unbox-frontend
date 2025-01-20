@@ -39,7 +39,7 @@ const AddEssay = () => {
 
     try {
       const response = await axios.post(
-        'http://192.168.1.54:8000/api/essay-writing/', 
+        'http://192.168.1.29:8000/api/essay-writing/', 
         data,
         {
           headers: {

@@ -18,7 +18,7 @@ const StudentForm = () => {
 
       // console.log("Token fetched from localStorage:", token); 
       try {
-        const response = await axios.get("http://192.168.1.54:8000/api/get-user/", {
+        const response = await axios.get("http://192.168.1.29:8000/api/get-user/", {
           headers: {
             Authorization: `Token ${token}`,
           },
@@ -65,7 +65,7 @@ const StudentForm = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.1.54:8000/api/student-details/",
+        "http://192.168.1.29:8000/api/student-details/",
         formDataToSubmit,
         {
           headers: {

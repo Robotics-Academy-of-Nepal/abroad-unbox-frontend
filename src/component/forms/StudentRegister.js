@@ -30,7 +30,7 @@ const Signup = () => {
     setError("");
 
     try {
-      const response = await axios.post("http://192.168.1.54:8000/api/register/", formData, {
+      const response = await axios.post("http://192.168.1.29:8000/api/register/", formData, {
         headers: { "Content-Type": "application/json" },
       });
 

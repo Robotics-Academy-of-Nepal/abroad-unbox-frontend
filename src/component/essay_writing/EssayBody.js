@@ -21,7 +21,7 @@ const EssayBody = () => {
 
       if (token) {
         try {
-          const response = await axios.get('http://192.168.1.54:8000/api/get-user/', {
+          const response = await axios.get('http://192.168.1.29:8000/api/get-user/', {
             headers: { Authorization: `Token ${token}` }
           });
           setIsAdmin(response.data.is_staff);
@@ -35,7 +35,7 @@ const EssayBody = () => {
       setLoading(true);
 
       try {
-        const response = await axios.get('http://192.168.1.54:8000/api/essay-writing/');
+        const response = await axios.get('http://192.168.1.29:8000/api/essay-writing/');
         const fetchedContent = response.data[0];
         if (fetchedContent) {
           setContent({
@@ -66,7 +66,7 @@ const EssayBody = () => {
     if (token) {
       try {
         await axios.delete(
-          `http://192.168.1.54:8000/api/essay-writing/${content.id}/`,
+          `http://192.168.1.29:8000/api/essay-writing/${content.id}/`,
           { headers: { 'Authorization': `Token ${token}` } }
         );
         alert('Content deleted successfully!');

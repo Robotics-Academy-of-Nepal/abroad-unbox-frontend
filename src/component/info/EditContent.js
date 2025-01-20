@@ -23,7 +23,7 @@ const EditContentForm = () => {
       try {
         // setLoading(true);
         const response = await axios.get(
-          `http://192.168.1.54:8000/api/info/${id}/`,  
+          `http://192.168.1.29:8000/api/info/${id}/`,  
           { 
             headers: { 
               'Authorization': `Token ${token}`  
@@ -73,7 +73,7 @@ const EditContentForm = () => {
     try {
       setLoading(true);
       const response = await axios.put(
-        `http://192.168.1.54:8000/api/info/${id}/`,
+        `http://192.168.1.29:8000/api/info/${id}/`,
         data,
         {
           headers: {
