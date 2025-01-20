@@ -1,68 +1,55 @@
-import React, { useState } from 'react'
-import Sidebar from '../Sidebar'
-import QuizQuestion from '../quiz/QuizQuestion';
+import React, { useState } from 'react';
+import Sidebar from "../Sidebar";
+import satimg from "../image/sat.jpg";
 
 const Reading = () => {
-const [isAdmin, setIsAdmin]= useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   return (
-    <div className='w-full flex'>
-        <div className='w-[35%] md:w-[20%]'>
-            <Sidebar/>
-        </div>
-        <div className='w-[70%] md:w-[80%]'>
-        <div className="container mx-auto p-6">
-        <h1 className="text-2xl font-bold mb-4">Reading</h1>
+    <div className="w-full flex bg-gray-100">
+      {/* Sidebar */}
+      <div className="w-[35%] md:w-[20%]">
+        <Sidebar />
+      </div>
 
-        {isAdmin && (
-            <button className="text-blue-600 underline mb-4">Add Subtopic</button>
-        )}
-
-        <div className="flex flex-col md:flex-row gap-6">
-            {/* Video Container */}
-            <div className="w-full md:w-1/2">
-                <video
-                    className="w-full h-64 md:h-full"
-                    controls
-                    preload="metadata"
-                >
-                <source src='' type="video/mp4" />
-            </video>
+      {/* Main Content */}
+      <div className="w-[70%] md:w-[80%]">
+        <div className="w-full flex flex-col-reverse md:flex-row gap-4">
+          {/* About SAT */}
+          <div className="flex-1 p-4 text-gray-900 text-justify">
+            <div className="text-xl md:text-2xl font-bold mb-2">
+              ABOUT SAT
             </div>
-
-            {/* Article Container */}
-            <div className="w-full md:w-1/2">
-                Article container
+            {/* SAT Description */}
+            <div className="text-lg md:text-xl items-center justify-center ">
+              The SAT (Scholastic Assessment Test) is a standardized test widely used for college admissions in the United States. It is designed to assess a student's readiness for college by evaluating their skills in areas such as reading, writing, and mathematics.
+              The test consists of three main sections:
+            <ul className='pl-6 hidden md:block'>
+            <li className='list-disc'>
+                <span className='font-semibold'>Reading:</span> Measures the ability to understand and interpret written passages, analyzing vocabulary in context, and identifying main ideas and supporting details.
+            </li>
+            <li className='list-disc'>
+                <span className='font-semibold'>Writing and Language:</span> Tests grammar and usage, punctuation, sentence structure, and rhetorical skills by asking students to identify and correct errors in passages.
+            </li>
+            <li className='list-disc'>
+                <span className='font-semibold'>Mathematics:</span> Includes questions on arithmetic, algebra, geometry, and data analysis. It is divided into two sections: one that allows a calculator and one that does not.
+            </li>
+            </ul>
             </div>
-        </div>
-        {/* description section */}
-        <div className='my-3 text-justify'>
-        <h2 className="text-lg font-semibold">Description:</h2>
-            <p className="mb-4">
-                Taken by students everywhere for U.S. college admissions. It is
-                used to assess student competence and college readiness in critical
-                reading, writing, and math.
-            </p>
+          </div>
 
-            <h2 className="text-lg font-semibold">About:</h2>
-            <p className="mb-4">
-                The SAT is an exam run by the College Board and taken by students
-                everywhere for U.S. college admissions. 
-            </p>
+          {/* SAT Image */}
+          <div className="flex-1">
+            <img
+              src={satimg}
+              alt="SAT"
+              className="w-full h-auto object-cover shadow-lg"
+            />
+          </div>
         </div>
-            {/* Admin Controls */}
-            {isAdmin && (
-                    <div className="flex gap-4 mt-4">
-                    <button className="text-blue-600 underline">Edit Content</button>
-                    <button className="text-red-600 underline">Delete Content</button>
-                    </div>
-            )}
-        </div>
-        {/* quiz section here */}
-        {/* <QuizQuestion/> */}
+      </div>
     </div>
-    </div>
-  )
-}
+  );
+};
 
-export default Reading
+export default Reading;
