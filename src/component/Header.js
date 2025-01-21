@@ -75,7 +75,8 @@ const Header = ({ setIsStaff: setParentIsStaff }) => {
               </Link>
             </li>
             <li>
-              <Link to="/sat/reading" onClick={toggleMenu}>
+              {isLoggedin && (
+                <Link to="/sat/reading" onClick={toggleMenu}>
                 <span
                   className={`block px-4 py-2 rounded-md text-lg ${
                     location.pathname === "/sat/reading"
@@ -86,6 +87,7 @@ const Header = ({ setIsStaff: setParentIsStaff }) => {
                   SAT
                 </span>
               </Link>
+              )}
             </li>
             {isLoggedin && !isStaff && (
               <li>
@@ -173,7 +175,8 @@ const Header = ({ setIsStaff: setParentIsStaff }) => {
             Home
           </button>
         </Link>
-        <Link to="/sat/reading">
+        {isLoggedin && (
+          <Link to="/sat/reading">
           <button
             className={`px-4 py-4 rounded-t-lg focus:outline-none ${
               location.pathname === "/sat/reading"
@@ -184,6 +187,7 @@ const Header = ({ setIsStaff: setParentIsStaff }) => {
             SAT
           </button>
         </Link>
+        )}
         {isLoggedin && !isStaff && (
           <Link to="/studentdash">
             <button
